@@ -1,1 +1,1 @@
-# Healthcare_Predictor
+# Disease_Predictor
