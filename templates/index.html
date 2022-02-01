@@ -1,36 +1,69 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Health Prescreening</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Skynet HealthSystems</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico"/>
   
+  <!-- style.css  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link href="./static/CSS/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 
 <body>
- <div class="login">
-	<h1>Prescreen Diagnosis 3000</h1>
+  
 
-     <!-- Main Input For Receiving Query to our RF Model -->
-    <form action="{{ url_for('predict')}}"method="post">
-    	<input type="text" name="Symptom_1" placeholder="Symptom 1" required="required" />
-        <input type="text" name="Symptom_2" placeholder="Symptom 2" required="required" />
-		<input type="text" name="Symptom_3" placeholder="Symptom 3" required="required" />
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Diagnosis</button>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center">Prescreen Diagnosis</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">What symptoms are you experiencing?
+        <br>
+        </h5>
+      </div>
+
+      <div class="row">
+    <form action='/predict' method="post" class="col s12">
+      <div class="row">
+        <div class="input-field col s4">
+            <label for="s1"><b>Symptom-1</b></label>
+            <br>
+          <input id="s1" name="Symptom1" placeholder="fatigue"  type="text" class="validate">
+        </div>
+        <div class="input-field col s4">
+
+          <label for="s2"><b> Symptom-2</b></label>
+            <br>
+          <input id="s2" name="Symptom2" placeholder="back_pain"  type="text" class="validate">
+        </div>
+
+        <div class="input-field col s4">
+            <label for="s3"><b>Symptom-3</b></label>
+            <br>
+          <input id="s3" name="Symptom3" placeholder="indigestion" type="text" class="validate">
+        </div>
+      </div>
+
+      <div class="row center">
+        <button> Diagnosis
+        </button>
+          
+      </div>
     </form>
+      </div>
 
-   <br>
-   <br>
-   {{ prediction_text }}
+      <br>
+        {{endPrediction}}
+      <br>
 
- </div>
-
-
-</body>
+    </div>
+  </div>
+    <br><br>
+  </div>
+  </div>
+  </body>
 </html>
