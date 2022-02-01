@@ -1,64 +1,48 @@
-from flask import Flask, render_template, url_for, request, jsonify
-import pickle
-import numpy as np
+# Importing Dependencies
+from flask import Flask, request, render_template
 import pandas as pd
-import os
+import numpy as np
 import joblib
 
-
+# Starting Flask App
 app = Flask(__name__)
 
-
+# Standard Scaler
 sc = joblib.load('./sc.joblib')
 
+# Random Forest Model
 modelRF = joblib.load("./RFModelDiseasePredictr.joblib")
 
+# Reading in Testing.csv
+df = pd.read_csv('Resources/Testing.csv', error_bad_lines= False)
 
+# Identifying Features (symptoms) and dropping 'Prognosis' column
+x_test = df.iloc[:, 0:-1]
+
+# Setting App routes
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/predict', methods =['POST'])
+# POST Request to send data to Flask API and update with 'request.form.values'
+@app.route('/predict',methods=['POST'])
 def predict():
-    print('hello')
-    x = np.array(request.json).reshape(1, -1)
-    print(x)
-    x = sc.transform(x)
-    print(x)
-    prediction = modelRF.predict(x)[0]
-    prediction = str(prediction)
+    if request.method=='POST':
+        symptoms=x_test.columns
+        userInput = [str(x) for x in request.form.values()]
+        
+        # b = created list with 132 elements ex. [0,0,0,0,0]
+        b=[0]*132
+        for x in range(0,132):
+            for y in userInput:
+                if(symptoms[x]==y):
+                    b[x]=1
+        b=np.array(b)
+        b=b.reshape(1,132)
+        prediction = modelRF.predict(b)
+        prediction=prediction[0]
+    return render_template('index.html', endPrediction="The chosen symptoms suggests it could be {}".format(prediction))
 
-    print(prediction)
-    return jsonify({
-        "data": prediction
-        })
-
-    
-
-
-
-    # whatSymptoms = np.zeros(len(symptomsDict))
-    # trueSymp = []
-    # symptoms = request.args.get('symptoms')
-    # #symptoms = symptoms.split(',')
-
-    # for symptom in symptoms:
-    #     trueSymp.append(symptomsDict[symptom])
-    
-    # whatSymptoms[trueSymp] = 1
-
-
-    # return jsonify({"data": modelRF.predict([input_vector])[0]})
-    
-    # features = [str(x) for x in request.form.values()]
-    # sympFeatures = [np.array(features)]
-    # print(features)
-    # prediction = modelRF.predict(sympFeatures)
-    # print(prediction)
-
-    # output = '{0:.{1}f}'.format(prediction[0][1], 2)
-
-    # return render_template('index.html', prediction_text ='Your prescreen diagnosis is $ {}'.format(output))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=True)
