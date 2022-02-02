@@ -41,7 +41,8 @@ def predict():
         b=b.reshape(1,132)
         prediction = modelRF.predict(b)
         prediction=prediction[0]
-    return render_template('index.html', endPrediction="The chosen symptoms suggests it could be {}".format(prediction))
+    return render_template('index.html', 
+    endPrediction="The chosen symptoms suggests it could be {}".format(prediction))
 
 
 if __name__ == "__main__":
