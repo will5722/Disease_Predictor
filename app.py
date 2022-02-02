@@ -16,8 +16,11 @@ modelRF = joblib.load("./RFModelDiseasePredictr.joblib")
 # Reading in Testing.csv
 df = pd.read_csv('Resources/Testing.csv', error_bad_lines= False)
 
+# Cleaned DF by removing underscores from columns
+cleanedDF = df.rename(columns=lambda name: name.replace('_', ' '))
+
 # Identifying Features (symptoms) and dropping 'Prognosis' column
-x_test = df.iloc[:, 0:-1]
+x_test = cleanedDF.iloc[:, 0:-1]
 
 # Setting App routes
 @app.route('/')
