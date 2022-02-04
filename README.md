@@ -40,7 +40,8 @@
 
 - Step 2: Install the requirements: `pip install -r requirements.txt`
 
-- Step 3: Go to this app's directory and run `python app.py`
+- Step 3: Go to this app's directory and run `python app.py` (Random Forest Model)
+- Step 3.5: Go to this app's directory and run `python 2app.py` (Neural Network Model)
 
 - Step 4: Visit applications local URL: http://localhost:5000/
 
